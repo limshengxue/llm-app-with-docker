@@ -12,9 +12,10 @@ services:
       - chatbot-net
     environment:
       - OLLAMA_SERVER_URL=http://ollama:11434
-      - MODEL_NAME=mistral
+      - MODEL_NAME=gemma3:1b
     depends_on:
-      - ollama
+      ollama:
+        condition: service_healthy
 
   ollama:
     build:
@@ -27,8 +28,13 @@ services:
     networks:
       - chatbot-net
     environment:
-      - MODEL_NAME=mistral
+      - MODEL_NAME=gemma3:1b
     entrypoint: [ "/usr/bin/bash", "pull-model.sh" ]
+    healthcheck:
+      test: "bash -c 'cat < /dev/null > /dev/tcp/localhost/11434'"
+      interval: 60s
+      timeout: 5s
+      retries: 5
 
 networks:
   chatbot-net:

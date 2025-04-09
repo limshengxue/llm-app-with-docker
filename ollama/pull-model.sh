@@ -7,7 +7,7 @@ ollama serve &
 sleep 5
 
 # Pull model
-ollama pull mistral
+ollama pull ${MODEL_NAME}
 
 # Wait for the Ollama server to finish 
 wait $!
