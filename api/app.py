@@ -37,7 +37,7 @@ class QueryInput(BaseModel):
 
 @app.get('/')
 def home():
-    return {"Chat" : "Bot"}
+    return "FastAPI server now running"
 
 def init_collection():
     if len(vectorstore.get()['documents']) == 0:

@@ -5,10 +5,13 @@ RUN apt-get update -y && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 ENV APP_HOME /app
+
 WORKDIR $APP_HOME
 
-COPY . ./
+COPY requirements.txt ./
 
 RUN pip install -r requirements.txt
+
+COPY . ./
 
 CMD exec uvicorn app:app --host '0.0.0.0' --port 8000
