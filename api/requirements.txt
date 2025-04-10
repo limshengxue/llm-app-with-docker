@@ -3,4 +3,8 @@ uvicorn
 langchain
 langchain-community
 langchain-ollama
+langchain-chroma
+langchain_mistralai
 pydantic
+chromadb
+langgraph

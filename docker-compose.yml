@@ -12,10 +12,14 @@ services:
       - chatbot-net
     environment:
       - OLLAMA_SERVER_URL=http://ollama:11434
+      - CHROMA_SERVER_URL=http://vectordb:8000
       - MODEL_NAME=gemma3:1b
     depends_on:
       ollama:
         condition: service_healthy
+      vectordb:
+        condition: service_started
+      
 
   ollama:
     build:
@@ -35,6 +39,15 @@ services:
       interval: 60s
       timeout: 5s
       retries: 5
+  
+  vectordb:
+    image: chromadb/chroma
+    ports:
+      - 8001:8000
+    volumes:
+      - chroma-data:/data
+    networks:
+      - chatbot-net
 
 networks:
   chatbot-net:
@@ -42,4 +55,6 @@ networks:
 
 volumes:
   chatbot-vol:
+    driver: local
+  chroma-data:
     driver: local
