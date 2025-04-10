@@ -35,10 +35,13 @@ services:
       - MODEL_NAME=gemma3:1b
     entrypoint: [ "/usr/bin/bash", "pull-model.sh" ]
     healthcheck:
-      test: "bash -c 'cat < /dev/null > /dev/tcp/localhost/11434'"
-      interval: 60s
+      test: 
+        - "CMD-SHELL"
+        - |
+          test -f /tmp/ollama_ready && \
+          bash -c '</dev/tcp/localhost/11434'  # Checks if Ollama is accepting connections      interval: 30s
       timeout: 5s
-      retries: 5
+      retries: 10
   
   vectordb:
     image: chromadb/chroma
